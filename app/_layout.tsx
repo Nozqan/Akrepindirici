@@ -7,13 +7,10 @@ import { ThemeProvider } from '@/lib/theme-provider';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { BiometricManager } from '@/lib/biometric-manager';
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const [fontsLoaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  });
+  const [fontsLoaded] = useFonts({});
 
   const [isReady, setIsReady] = useState(false);
   const [isBiometricAuthenticated, setIsBiometricAuthenticated] = useState(false);
@@ -23,15 +20,12 @@ export default function RootLayout() {
   useEffect(() => {
     const initializeApp = async () => {
       try {
-        // Check biometric status
         const biometricEnabled = await BiometricManager.isBiometricEnabled();
 
         if (biometricEnabled) {
-          // Redirect to biometric lock screen
           setIsBiometricAuthenticated(false);
           router.replace('/biometric-lock');
         } else {
-          // Skip biometric, go to main app
           setIsBiometricAuthenticated(true);
         }
 
@@ -47,22 +41,19 @@ export default function RootLayout() {
     }
   }, [fontsLoaded]);
 
-  // Handle deep linking and authentication state
   useEffect(() => {
     if (!isReady) return;
 
     const inAuthGroup = segments[0] === '(tabs)';
 
     if (!isBiometricAuthenticated && inAuthGroup) {
-      // Redirect to biometric lock if trying to access protected routes
       router.replace('/biometric-lock');
     } else if (isBiometricAuthenticated && segments[0] === 'biometric-lock') {
-      // Redirect to main app if already authenticated
       router.replace('/(tabs)/home');
     }
   }, [isBiometricAuthenticated, segments, isReady]);
 
-  if (!fontsLoaded || !isReady) {
+  if (!isReady) {
     return null;
   }
 

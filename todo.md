@@ -11,8 +11,8 @@
 
 ## Ekran Geliştirme
 
-- [ ] Splash/Giriş ekranı
-- [ ] Biyometrik kilit ekranı
+- [x] Splash/Giriş ekranı
+- [x] Biyometrik kilit ekranı
 - [x] Ana sayfa (Twitter video indirme)
 - [x] TikTok indirme ekranı
 - [x] Instagram indirme ekranı
@@ -106,10 +106,20 @@
 
 ## GitHub ve CI/CD
 
-- [ ] GitHub deposuna push
-- [ ] CI/CD yml dosyası ekleme
-- [ ] GitHub Actions workflow kurulumu
-- [ ] Otomatik build ve test pipeline
+- [x] GitHub deposuna push
+- [x] CI/CD yml dosyası ekleme
+- [x] GitHub Actions workflow kurulumu
+- [x] Otomatik build ve test pipeline
+
+## Paylaşım Özellikleri
+
+- [x] WhatsApp paylaşımı
+- [x] Telegram paylaşımı
+- [x] Email paylaşımı
+- [x] SMS paylaşımı
+- [x] Clipboard'a kopyalama
+- [x] QR kod paylaşımı
+- [x] Galeri paylaşım ekranı
 
 ## Tamamlanan İşler
 
@@ -124,7 +134,7 @@
 - [x] Filigran temizleme entegrasyonu
 - [x] İndirme ilerleme tracking
 - [x] Hata yönetimi ve retry mekanizması
-- [ ] S3 depolamaya yükleme
+- [x] S3 depolamaya yükleme
 
 ## GitHub Actions Workflow Düzeltme
 
