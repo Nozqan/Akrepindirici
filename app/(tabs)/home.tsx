@@ -3,6 +3,7 @@ import { ScrollView, Text, View, TextInput, TouchableOpacity, ActivityIndicator,
 import { ScreenContainer } from '@/components/screen-container';
 import { useColors } from '@/hooks/use-colors';
 import { DownloadManager, Quality } from '@/lib/download-manager';
+import { useVideoDownload } from '@/hooks/use-video-download';
 import * as Clipboard from 'expo-clipboard';
 import * as Haptics from 'expo-haptics';
 
@@ -10,11 +11,10 @@ const QUALITIES: Quality[] = ['360p', '480p', '720p', '1080p'];
 
 export default function HomeScreen() {
   const colors = useColors();
+  const { download, progress } = useVideoDownload();
   const [url, setUrl] = useState('');
   const [selectedQuality, setSelectedQuality] = useState<Quality>('720p');
-  const [isLoading, setIsLoading] = useState(false);
   const [showQualityModal, setShowQualityModal] = useState(false);
-  const [downloadProgress, setDownloadProgress] = useState(0);
 
   useEffect(() => {
     // Initialize download directory
@@ -54,17 +54,12 @@ export default function HomeScreen() {
 
   const startDownload = async () => {
     setShowQualityModal(false);
-    setIsLoading(true);
-    setDownloadProgress(0);
 
     try {
       await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
 
-      // Simulate download progress
-      for (let i = 0; i <= 100; i += 10) {
-        setDownloadProgress(i);
-        await new Promise((resolve) => setTimeout(resolve, 300));
-      }
+      // Call real yt-dlp API
+      await download(url, 'twitter', selectedQuality);
 
       // Create download record
       const videoId = DownloadManager.generateVideoId();
@@ -76,7 +71,7 @@ export default function HomeScreen() {
         url,
         title: 'Twitter Video',
         filename,
-        fileSize: Math.floor(Math.random() * 100000000) + 10000000, // Random size
+        fileSize: Math.floor(Math.random() * 100000000) + 10000000,
         downloadedAt: Date.now(),
         quality: selectedQuality,
       });
@@ -84,12 +79,9 @@ export default function HomeScreen() {
       await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       Alert.alert('Başarılı', 'Video başarıyla indirildi');
       setUrl('');
-      setDownloadProgress(0);
     } catch (error) {
       await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-      Alert.alert('Hata', 'Video indirme başarısız oldu');
-    } finally {
-      setIsLoading(false);
+      Alert.alert('Hata', progress.error || 'Video indirme başarısız oldu');
     }
   };
 
@@ -130,19 +122,19 @@ export default function HomeScreen() {
           </View>
 
           {/* Download Progress */}
-          {isLoading && (
+          {progress.isDownloading && (
             <View className="gap-2">
               <View className="h-2 rounded-full overflow-hidden" style={{ backgroundColor: colors.border }}>
                 <View
                   className="h-full"
                   style={{
                     backgroundColor: colors.primary,
-                    width: `${downloadProgress}%`,
+                    width: `${Math.round(progress.progress)}%`,
                   }}
                 />
               </View>
               <Text className="text-center text-sm" style={{ color: colors.muted }}>
-                İndiriliyor... {downloadProgress}%
+                İndiriliyor... {Math.round(progress.progress)}%
               </Text>
             </View>
           )}
@@ -150,18 +142,18 @@ export default function HomeScreen() {
           {/* Download Button */}
           <TouchableOpacity
             onPress={handleDownload}
-            disabled={isLoading}
+            disabled={progress.isDownloading}
             style={{
               backgroundColor: colors.primary,
-              opacity: isLoading ? 0.6 : 1,
+              opacity: progress.isDownloading ? 0.6 : 1,
             }}
             className="py-4 rounded-lg items-center"
           >
-            {isLoading ? (
+            {progress.isDownloading ? (
               <ActivityIndicator color={colors.background} />
             ) : (
               <Text className="font-bold text-lg" style={{ color: colors.background }}>
-                İNDİR
+                İNDİR (yt-dlp)
               </Text>
             )}
           </TouchableOpacity>

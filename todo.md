@@ -115,3 +115,23 @@
 
 (Bu bölüm proje ilerledikçe güncellenecektir)
 
+
+
+## yt-dlp API Entegrasyonu
+
+- [x] yt-dlp backend servisi kurulumu
+- [x] Video indirme endpoint'leri (Twitter, TikTok, Instagram)
+- [x] Filigran temizleme entegrasyonu
+- [x] İndirme ilerleme tracking
+- [x] Hata yönetimi ve retry mekanizması
+- [ ] S3 depolamaya yükleme
+
+## GitHub Actions Workflow Düzeltme
+
+- [x] Build workflow YAML dosyası oluşturma
+- [x] Lint ve test job'ları
+- [x] Server build job'ı
+- [x] Mobile app build job'ı
+- [x] Artifact upload ve deployment
+- [x] Workflow'u GitHub'a push etme
+
