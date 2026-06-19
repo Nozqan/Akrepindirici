@@ -19,7 +19,7 @@
 - [x] İndirilenler galerisi (grid görünüm)
 - [x] Ayarlar paneli (tema, biyometrik, kurucu bilgisi)
 - [x] Kalite seçim modal (360p-1080p)
-- [ ] Detay ekranı (indirilen video bilgileri)
+- [x] Detay ekranı (indirilen video bilgileri)
 
 ## Video İndirme Özellikleri
 
@@ -39,7 +39,7 @@
 - [x] Global tema switch (Dark/Light)
 - [x] Dinamik UI component güncellemeleri
 - [x] Turuncu accent renk (tüm butonlar ve toggle'lar)
-- [ ] Tema geçiş animasyonları
+- [x] Tema geçiş animasyonları
 - [x] Tema seçiminin kaydedilmesi
 
 ## Güvenlik Özellikleri
@@ -48,19 +48,19 @@
 - [x] Biyometrik callback handler
 - [x] Fallback passcode mekanizması
 - [x] Auth-state persistence
-- [ ] Activity lifecycle observer
-- [ ] Screen-background privacy blur
-- [ ] On-resume verification logic
-- [ ] Ekran görüntüsü/kayıt engelleme (secure flags)
+- [x] Activity lifecycle observer
+- [x] Screen-background privacy blur
+- [x] On-resume verification logic
+- [x] Ekran görüntüsü/kayıt engelleme (secure flags)
 - [x] Şifreli oturum yönetimi
 
 ## Veri Yönetimi
 
 - [x] İndirme geçmişi kaydı (AsyncStorage)
 - [x] Platform bazlı sekme yönetimi (Twitter/TikTok/Instagram)
-- [ ] Thumbnail caching (bellek verimli)
-- [ ] Encrypted file path management
-- [ ] Garbage collection optimizasyonu
+- [x] Thumbnail caching (bellek verimli)
+- [x] Encrypted file path management
+- [x] Garbage collection optimizasyonu
 
 ## Ayarlar Paneli
 
@@ -87,8 +87,8 @@
 
 - [x] User-Agent randomizer engine
 - [x] Stealth cookie manager
-- [ ] Custom WebView interceptor
-- [ ] Captcha-solving relay
+- [x] Custom WebView interceptor
+- [x] Captcha-solving relay
 - [x] TLS/SSL header spoofing
 - [x] Düşük bellek tüketimli network interceptor
 

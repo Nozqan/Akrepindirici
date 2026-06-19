@@ -1,0 +1,120 @@
+apply plugin: "com.android.application"
+apply plugin: "kotlin-android"
+apply plugin: "com.facebook.react"
+
+import com.android.build.OutputFile
+
+/**
+ * This is the build configuration for your application.
+ */
+android {
+    ndkVersion rootProject.ext.ndkVersion
+
+    compileSdkVersion rootProject.ext.compileSdkVersion
+
+    namespace "com.akrepindiricitit"
+    defaultConfig {
+        applicationId "com.akrepindiricitit"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName "1.0.0"
+        
+        buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", "false"
+        buildConfigField "String", "REACT_APP_VERSION", "\"1.0.0\""
+    }
+
+    signingConfigs {
+        release {
+            if (project.hasProperty('MYAPP_RELEASE_STORE_FILE')) {
+                storeFile file(MYAPP_RELEASE_STORE_FILE)
+                storePassword MYAPP_RELEASE_STORE_PASSWORD
+                keyAlias MYAPP_RELEASE_KEY_ALIAS
+                keyPassword MYAPP_RELEASE_KEY_PASSWORD
+            }
+        }
+    }
+
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.debug
+        }
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled enableProguardInReleaseBuilds
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+        }
+    }
+
+    flavorDimensions "version"
+    productFlavors {
+        free {
+            dimension "version"
+            applicationIdSuffix ".free"
+            versionNameSuffix "-free"
+        }
+        paid {
+            dimension "version"
+            applicationIdSuffix ".paid"
+            versionNameSuffix "-paid"
+        }
+    }
+
+    packagingOptions {
+        pickFirst '**/armeabi-v7a/libc++_shared.so'
+        pickFirst '**/arm64-v8a/libc++_shared.so'
+        pickFirst '**/x86/libc++_shared.so'
+        pickFirst '**/x86_64/libc++_shared.so'
+    }
+
+    splits {
+        abi {
+            reset()
+            enable enableSeparateBuildPerCPUArchitecture
+            universalApk false
+            include "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
+        }
+    }
+
+    sourceSets {
+        main {
+            java.srcDirs = ['src/main/java', 'src/main/kotlin']
+        }
+    }
+}
+
+dependencies {
+    // React Native
+    implementation "com.facebook.react:react-android:${REACT_NATIVE_VERSION}"
+    implementation "com.facebook.react:hermes-android:${REACT_NATIVE_VERSION}"
+    
+    // Kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:${KOTLIN_VERSION}"
+    
+    // AndroidX
+    implementation "androidx.appcompat:appcompat:1.6.1"
+    implementation "androidx.core:core:1.10.1"
+    
+    // Expo
+    implementation "expo.modules:expo-modules-core"
+}
+
+task copyDownloadableDepsToLibs(dependsOn: configurations.compile) {
+    doLast {
+        configurations.compile.resolvedConfiguration.resolvedArtifacts.each { artifact ->
+            def fileName = artifact.moduleVersion.id.toString()
+            copy {
+                from artifact.file
+                into "${project.buildDir}/libs"
+                rename { String filename ->
+                    "${fileName}.${artifact.extension}"
+                }
+            }
+        }
+    }
+}
+
+afterEvaluate { project ->
+    def isNewArchitectureEnabled = project.hasProperty("newArchEnabled") && project.newArchEnabled == "true"
+    println "New Architecture is ${isNewArchitectureEnabled ? "enabled" : "disabled"}"
+}
