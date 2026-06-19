@@ -1,17 +1,4 @@
 buildscript {
-    repositories {
-        google()
-        mavenCentral()
-    }
-    dependencies {
-        classpath("com.android.tools.build:gradle:8.2.1")
-        // Plugin versiyonunu açıkça belirtiyoruz ve Maven Central'da aranmasını sağlıyoruz
-        classpath("com.facebook.react:react-native-gradle-plugin:0.73.4")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.20")
-    }
-}
-
-allprojects {
     ext {
         buildToolsVersion = "34.0.0"
         minSdkVersion = 24
@@ -23,7 +10,20 @@ allprojects {
     repositories {
         google()
         mavenCentral()
+    }
+    dependencies {
+        classpath("com.android.tools.build:gradle:8.2.1")
+        classpath("com.facebook.react:react-native-gradle-plugin")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${ext.kotlinVersion}")
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
         maven {
+            // React Native plugin'i node_modules içinden çekmek için doğru yol
             url("$rootDir/../node_modules/react-native/android")
         }
         maven {
