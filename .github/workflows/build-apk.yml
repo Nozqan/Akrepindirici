@@ -1,97 +1,47 @@
-name: Native Android APK Build
+name: Yerel Android APK Derlemesi
 
 on:
   push:
-    branches:
-      - main
-      - develop
-  pull_request:
-    branches:
-      - main
-      - develop
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:
-  build-android:
-    name: Build Android APK
+  build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Java 17 Kurulumu
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: 'gradle'
+
+      - name: Node.js Kurulumu
         uses: actions/setup-node@v4
         with:
           node-version: '20'
 
-      - name: Setup Java 17
-        uses: actions/setup-java@v4
+      - name: pnpm Kurulumu
+        uses: pnpm/action-setup@v2
         with:
-          distribution: 'temurin'
-          java-version: '17'
+          version: 8
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
-
-      - name: Install pnpm
-        run: npm install -g pnpm@9.12.0
-
-      - name: Install dependencies
+      - name: Bağımlılıkları Yükle
         run: pnpm install --no-frozen-lockfile
 
-      - name: Generate debug keystore
-        run: |
-          mkdir -p android/app
-          if [ ! -f android/app/debug.keystore ]; then
-            keytool -genkeypair \
-              -v \
-              -keystore android/app/debug.keystore \
-              -storepass android \
-              -alias androiddebugkey \
-              -keypass android \
-              -keyalg RSA \
-              -keysize 2048 \
-              -validity 10000 \
-              -dname "CN=Android Debug,O=Android,C=US"
-          else
-            echo "Keystore already exists, skipping generation."
-          fi
+      - name: Android SDK Kurulumu
+        uses: android-actions/setup-android@v3
 
-      - name: Build Android APK
+      - name: APK Derle (assembleDebug)
         run: |
           cd android
           chmod +x gradlew
-          ./gradlew assembleDebug --no-daemon --stacktrace
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ./gradlew assembleDebug --stacktrace
 
-      - name: Collect APK
-        run: |
-          mkdir -p build-artifacts
-          find android/app/build/outputs/apk/debug -name "*.apk" -exec cp {} build-artifacts/ \;
-          ls -R build-artifacts/
-
-      - name: Upload APK
+      - name: APK'yı Yükle (Artifact)
         uses: actions/upload-artifact@v4
         with:
-          name: akrepindirici-debug-apk
-          path: build-artifacts/
-          retention-days: 7
-
-      - name: Create Release
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        uses: softprops/action-gh-release@v1
-        with:
-          files: build-artifacts/*.apk
-          tag_name: v1.0.${{ github.run_number }}-native
-          name: "Native Build v1.0.${{ github.run_number }}"
-          body: |
-            ## Native Android Build
-            - Build: #${{ github.run_number }}
-            - Commit: ${{ github.sha }}
-            - Branch: ${{ github.ref_name }}
-            
-            Bu sürüm tamamen native Android (Gradle) kullanılarak üretilmiştir.
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          name: app-debug-apk
+          path: android/app/build/outputs/apk/debug/app-debug.apk
