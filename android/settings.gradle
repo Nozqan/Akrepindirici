@@ -1,2 +1,11 @@
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+
 rootProject.name = 'akrepindirici'
 include ':app'
+project(':app').projectDir = new File(rootProject.projectDir, 'app')

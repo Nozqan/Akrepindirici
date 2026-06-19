@@ -13,8 +13,8 @@ buildscript {
     }
     dependencies {
         classpath("com.android.tools.build:gradle:8.2.1")
-        classpath("com.facebook.react:react-native-gradle-plugin:0.73.4")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.20")
+        classpath("com.facebook.react:react-native-gradle-plugin")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${ext.kotlinVersion}")
     }
 }
 
@@ -22,6 +22,13 @@ allprojects {
     repositories {
         google()
         mavenCentral()
+        maven {
+            // React Native plugin'i node_modules içinden çekmek en güvenli yoldur
+            url("$rootDir/../node_modules/react-native/android")
+        }
+        maven {
+            url("$rootDir/../node_modules/jsc-android/dist")
+        }
         maven { url 'https://www.jitpack.io' }
     }
 }
