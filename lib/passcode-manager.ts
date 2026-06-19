@@ -1,7 +1,4 @@
-import * as SecureStore from 'expo-secure-store';
-import * as Crypto from 'expo-crypto';
 
-export interface PasscodeConfig {
   enabled: boolean;
   passcode: string; // hashed
   attempts: number;
@@ -10,7 +7,6 @@ export interface PasscodeConfig {
   lastAttempt: number;
 }
 
-export class PasscodeManager {
   private static readonly PASSCODE_KEY = 'app_passcode_config';
   private static readonly DEFAULT_PASSCODE = '0000';
   private static readonly MAX_ATTEMPTS = 5;

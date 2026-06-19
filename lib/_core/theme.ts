@@ -2,9 +2,7 @@ import { Platform } from "react-native";
 
 import themeConfig from "@/theme.config";
 
-export type ColorScheme = "light" | "dark";
 
-export const ThemeColors = themeConfig.themeColors;
 
 type ThemeColorTokens = typeof ThemeColors;
 type ThemeColorName = keyof ThemeColorTokens;
@@ -26,7 +24,6 @@ function buildSchemePalette(colors: ThemeColorTokens): SchemePalette {
   return palette;
 }
 
-export const SchemeColors = buildSchemePalette(ThemeColors);
 
 type RuntimePalette = SchemePaletteItem & {
   text: string;
@@ -52,14 +49,11 @@ function buildRuntimePalette(scheme: ColorScheme): RuntimePalette {
   };
 }
 
-export const Colors = {
   light: buildRuntimePalette("light"),
   dark: buildRuntimePalette("dark"),
 } satisfies Record<ColorScheme, RuntimePalette>;
 
-export type ThemeColorPalette = (typeof Colors)[ColorScheme];
 
-export const Fonts = Platform.select({
   ios: {
     /** iOS `UIFontDescriptorSystemDesignDefault` */
     sans: "system-ui",

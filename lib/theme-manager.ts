@@ -1,8 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export type ThemeName = 'jetBlack' | 'midnightBlue' | 'emerald' | 'ruby' | 'nebiSpecial';
 
-export interface ThemeColors {
   primary: string;
   background: string;
   surface: string;
@@ -17,7 +15,6 @@ export interface ThemeColors {
 
 const THEME_STORAGE_KEY = 'akrepindirici_theme';
 
-export const themes: Record<ThemeName, ThemeColors> = {
   jetBlack: {
     primary: '#FF8C00',
     background: '#0a0a0a',
@@ -80,7 +77,6 @@ export const themes: Record<ThemeName, ThemeColors> = {
   },
 };
 
-export class ThemeManager {
   static async getCurrentTheme(): Promise<ThemeName> {
     try {
       const stored = await AsyncStorage.getItem(THEME_STORAGE_KEY);

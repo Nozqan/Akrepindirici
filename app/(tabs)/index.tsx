@@ -14,7 +14,6 @@ import { ScreenContainer } from "@/components/screen-container";
  * - Responsive: standard Tailwind breakpoints work on web
  * - Custom colors defined in tailwind.config.js
  */
-export default function HomeScreen() {
   return (
     <ScreenContainer className="p-6">
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>

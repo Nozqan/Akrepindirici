@@ -8,5 +8,3 @@ if (!url) {
   process.exit(1);
 }
 
-await QRCode.toFile("expo-qr-code.png", url, { width: 512 });
-console.log(`✅ QR code saved to expo-qr-code.png`);

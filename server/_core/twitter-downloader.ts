@@ -3,14 +3,12 @@ import * as path from 'path';
 import * as fs from 'fs';
 import axios from 'axios';
 
-export interface TwitterDownloadOptions {
   url: string;
   quality: '360p' | '480p' | '720p' | '1080p';
   removeWatermark?: boolean;
   stripMetadata?: boolean;
 }
 
-export interface DownloadResult {
   success: boolean;
   filePath?: string;
   fileName?: string;
@@ -20,7 +18,6 @@ export interface DownloadResult {
   error?: string;
 }
 
-export interface TwitterMetadata {
   tweetId: string;
   author: string;
   createdAt: string;
@@ -30,7 +27,6 @@ export interface TwitterMetadata {
   videoUrl?: string;
 }
 
-export class TwitterDownloader {
   private static readonly DOWNLOAD_DIR = '/tmp/twitter_downloads';
   private static readonly USER_AGENTS = [
     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
@@ -202,7 +198,6 @@ export class TwitterDownloader {
       lastError = result;
 
       if (attempt < maxRetries) {
-        // Exponential backoff
         const delay = Math.pow(2, attempt) * 1000;
         console.log(`[TWITTER] Retrying in ${delay}ms...`);
         await new Promise((resolve) => setTimeout(resolve, delay));

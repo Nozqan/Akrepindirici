@@ -27,14 +27,12 @@
  */
 import { ENV } from "./env";
 
-export type TranscribeOptions = {
   audioUrl: string; // URL to the audio file (e.g., S3 URL)
   language?: string; // Optional: specify language code (e.g., "en", "es", "zh")
   prompt?: string; // Optional: custom prompt for the transcription
 };
 
 // Native Whisper API segment format
-export type WhisperSegment = {
   id: number;
   seek: number;
   start: number;
@@ -48,7 +46,6 @@ export type WhisperSegment = {
 };
 
 // Native Whisper API response format
-export type WhisperResponse = {
   task: "transcribe";
   language: string;
   duration: number;
@@ -56,9 +53,7 @@ export type WhisperResponse = {
   segments: WhisperSegment[];
 };
 
-export type TranscriptionResponse = WhisperResponse; // Return native Whisper API response directly
 
-export type TranscriptionError = {
   error: string;
   code:
     | "FILE_TOO_LARGE"
@@ -75,7 +70,6 @@ export type TranscriptionError = {
  * @param options - Audio data and metadata
  * @returns Transcription result or error
  */
-export async function transcribeAudio(
   options: TranscribeOptions,
 ): Promise<TranscriptionResponse | TranscriptionError> {
   try {
@@ -247,7 +241,6 @@ function getLanguageName(langCode: string): string {
  * // In server/routers.ts
  * import { transcribeAudio } from "./_core/voiceTranscription";
  *
- * export const voiceRouter = router({
  *   transcribe: protectedProcedure
  *     .input(z.object({
  *       audioUrl: z.string(),

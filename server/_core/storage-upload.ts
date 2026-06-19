@@ -2,21 +2,18 @@ import * as fs from 'fs';
 import * as path from 'path';
 import axios from 'axios';
 
-export interface UploadOptions {
   filePath: string;
   fileName: string;
   platform: 'twitter' | 'tiktok' | 'instagram' | 'youtube';
   contentType?: string;
 }
 
-export interface UploadResult {
   success: boolean;
   url?: string;
   error?: string;
   fileSize?: number;
 }
 
-export class StorageUploadService {
   private static readonly STORAGE_API = process.env.STORAGE_API_URL || 'http://localhost:3000/api/storage';
   private static readonly MAX_FILE_SIZE = 500 * 1024 * 1024; // 500MB
 

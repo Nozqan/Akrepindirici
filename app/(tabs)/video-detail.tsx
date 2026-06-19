@@ -1,12 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Share, Alert } from 'react-native';
-import { useLocalSearchParams, useRouter } from 'expo-router';
 import { ScreenContainer } from '@/components/screen-container';
-import * as FileSystem from 'expo-file-system/legacy';
-import * as Sharing from 'expo-sharing';
 import { useColors } from '@/hooks/use-colors';
 
-export default function VideoDetailScreen() {
   const router = useRouter();
   const colors = useColors();
   const params = useLocalSearchParams();

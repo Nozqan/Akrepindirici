@@ -1,22 +1,16 @@
-import * as Sharing from 'expo-sharing';
-import * as FileSystem from 'expo-file-system';
-import * as Clipboard from 'expo-clipboard';
 import { Alert } from 'react-native';
 
-export interface ShareOptions {
   videoUrl: string;
   fileName: string;
   platform: 'twitter' | 'tiktok' | 'instagram' | 'youtube';
   title?: string;
 }
 
-export interface ShareTarget {
   id: 'whatsapp' | 'telegram' | 'email' | 'sms' | 'facebook' | 'copy';
   name: string;
   icon: string;
 }
 
-export class ShareManager {
   static readonly SHARE_TARGETS: ShareTarget[] = [
     { id: 'whatsapp', name: 'WhatsApp', icon: '💬' },
     { id: 'telegram', name: 'Telegram', icon: '✈️' },

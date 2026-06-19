@@ -1,7 +1,6 @@
 import { TRPCError } from "@trpc/server";
 import { ENV } from "./env";
 
-export type HeartbeatJob = {
   name: string;
   /**
    * 6-field cron with seconds (`sec min hour dom mon dow`), UTC, min interval 60s.
@@ -21,11 +20,9 @@ export type HeartbeatJob = {
  * `enable`: true = resume, false = pause; omit = unchanged.
  * `name` is the (project, owner)-scope key and cannot be changed.
  */
-export type HeartbeatJobUpdate = Partial<Omit<HeartbeatJob, "name">> & {
   enable?: boolean;
 };
 
-export type HeartbeatJobInfo = {
   taskUid: string;
   name: string;
   userId: string;
@@ -137,7 +134,6 @@ const validateCallbackPath = (path: string): void => {
  * Create a new HTTP cron job. Returns the assigned `taskUid` to persist on
  * your business row so callbacks can dereference it.
  */
-export async function createHeartbeatJob(
   job: HeartbeatJob,
   userSession: string
 ): Promise<{ taskUid: string; nextExecutionAt?: string | null }> {
@@ -160,7 +156,6 @@ export async function createHeartbeatJob(
  * Update an existing cron located by `taskUid`. Only fields you pass in
  * `patch` are mutated. `enable` flips resume/pause; omit to leave alone.
  */
-export async function updateHeartbeatJob(
   taskUid: string,
   patch: HeartbeatJobUpdate,
   userSession: string
@@ -183,7 +178,6 @@ export async function updateHeartbeatJob(
 }
 
 /** Delete a cron located by `taskUid`. Idempotent on caller side. */
-export async function deleteHeartbeatJob(
   taskUid: string,
   userSession: string
 ): Promise<void> {
@@ -198,7 +192,6 @@ export async function deleteHeartbeatJob(
  * cannot list other users' crons via this SDK; cross-user inspection is
  * owner-only via the sandbox CLI (`manus-heartbeat list --user-id <uid>`).
  */
-export async function listHeartbeatJobs(
   userSession: string,
   pagination?: { page?: number; pageSize?: number }
 ): Promise<{ total: number; actorUserId: string; jobs: HeartbeatJobInfo[] }> {

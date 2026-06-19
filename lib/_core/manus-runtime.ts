@@ -1,5 +1,4 @@
 /**
- * Manus Runtime - Communication layer between Expo web app and parent container (next-agent-webapp)
  *
  * Simplified flow:
  * 1. initManusRuntime() called
@@ -91,7 +90,6 @@ function handleMessage(event: MessageEvent<unknown>): void {
 /**
  * Subscribe to safe area updates from the parent container.
  */
-export function subscribeSafeAreaInsets(callback: SafeAreaCallback): () => void {
   safeAreaCallback = callback;
   return () => {
     if (safeAreaCallback === callback) {
@@ -103,7 +101,6 @@ export function subscribeSafeAreaInsets(callback: SafeAreaCallback): () => void 
 /**
  * Initialize Manus Runtime - just notifies parent that app is ready
  */
-export function initManusRuntime(): void {
   if (!isWeb() || !isInIframe()) return;
   if (initialized) return;
   initialized = true;
@@ -116,6 +113,5 @@ export function initManusRuntime(): void {
 /**
  * Check if running inside preview iframe
  */
-export function isRunningInPreviewIframe(): boolean {
   return isWeb() && isInIframe();
 }

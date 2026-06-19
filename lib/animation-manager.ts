@@ -1,6 +1,5 @@
 import { Animated, Easing } from 'react-native';
 
-export class AnimationManager {
   // Button Press Animation (Scale 0.97)
   static createButtonPressAnimation(): {
     scaleValue: Animated.Value;

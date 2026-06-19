@@ -74,6 +74,6 @@ jobs:
             - Commit: ${{ github.sha }}
             - Branch: ${{ github.ref_name }}
             
-            Bu sürüm tamamen native Android (Gradle) kullanılarak üretilmiştir. Expo/EAS kaldırılmıştır.
+            Bu sürüm tamamen native Android (Gradle) kullanılarak üretilmiştir. 
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

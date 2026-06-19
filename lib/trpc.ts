@@ -12,13 +12,11 @@ import * as Auth from "@/lib/_core/auth";
  * NOT at the root createClient level. This ensures client and server
  * use the same serialization format (superjson).
  */
-export const trpc = createTRPCReact<AppRouter>();
 
 /**
  * Creates the tRPC client with proper configuration.
  * Call this once in your app's root layout.
  */
-export function createTRPCClient() {
   return trpc.createClient({
     links: [
       httpBatchLink({

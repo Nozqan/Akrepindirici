@@ -6,17 +6,13 @@ import axios from 'axios';
 
 const execAsync = promisify(exec);
 
-export type VideoPlatform = 'twitter' | 'tiktok' | 'instagram' | 'youtube';
-export type VideoQuality = '360p' | '480p' | '720p' | '1080p';
 
-export interface VideoDownloadOptions {
   url: string;
   platform: VideoPlatform;
   quality?: VideoQuality;
   removeWatermark?: boolean;
 }
 
-export interface DownloadResult {
   success: boolean;
   filePath?: string;
   fileName?: string;
@@ -34,7 +30,6 @@ const QUALITY_MAP: Record<VideoQuality, string> = {
   '1080p': 'best',
 };
 
-export class VideoDownloadService {
   static async ensureDownloadDir(): Promise<void> {
     if (!fs.existsSync(DOWNLOAD_DIR)) {
       fs.mkdirSync(DOWNLOAD_DIR, { recursive: true });

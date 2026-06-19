@@ -1,8 +1,6 @@
-import * as SecureStore from "expo-secure-store";
 import { Platform } from "react-native";
 import { SESSION_TOKEN_KEY, USER_INFO_KEY } from "@/constants/oauth";
 
-export type User = {
   id: number;
   openId: string;
   name: string | null;
@@ -11,7 +9,6 @@ export type User = {
   lastSignedIn: Date;
 };
 
-export async function getSessionToken(): Promise<string | null> {
   try {
     // Web platform uses cookie-based auth, no manual token management needed
     if (Platform.OS === "web") {
@@ -33,7 +30,6 @@ export async function getSessionToken(): Promise<string | null> {
   }
 }
 
-export async function setSessionToken(token: string): Promise<void> {
   try {
     // Web platform uses cookie-based auth, no manual token management needed
     if (Platform.OS === "web") {
@@ -51,7 +47,6 @@ export async function setSessionToken(token: string): Promise<void> {
   }
 }
 
-export async function removeSessionToken(): Promise<void> {
   try {
     // Web platform uses cookie-based auth, logout is handled by server clearing cookie
     if (Platform.OS === "web") {
@@ -68,7 +63,6 @@ export async function removeSessionToken(): Promise<void> {
   }
 }
 
-export async function getUserInfo(): Promise<User | null> {
   try {
     console.log("[Auth] Getting user info...");
 
@@ -94,7 +88,6 @@ export async function getUserInfo(): Promise<User | null> {
   }
 }
 
-export async function setUserInfo(user: User): Promise<void> {
   try {
     console.log("[Auth] Setting user info...", user);
 
@@ -113,7 +106,6 @@ export async function setUserInfo(user: User): Promise<void> {
   }
 }
 
-export async function clearUserInfo(): Promise<void> {
   try {
     if (Platform.OS === "web") {
       // Use localStorage for web

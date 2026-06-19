@@ -1,4 +1,3 @@
-export const themeColors: {
   primary: { light: string; dark: string };
   background: { light: string; dark: string };
   surface: { light: string; dark: string };
@@ -14,4 +13,3 @@ declare const themeConfig: {
   themeColors: typeof themeColors;
 };
 
-export default themeConfig;

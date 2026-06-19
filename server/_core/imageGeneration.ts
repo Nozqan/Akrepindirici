@@ -18,7 +18,6 @@
 import { storagePut } from "../storage";
 import { ENV } from "./env";
 
-export type GenerateImageOptions = {
   prompt: string;
   originalImages?: Array<{
     url?: string;
@@ -27,11 +26,9 @@ export type GenerateImageOptions = {
   }>;
 };
 
-export type GenerateImageResponse = {
   url?: string;
 };
 
-export async function generateImage(options: GenerateImageOptions): Promise<GenerateImageResponse> {
   if (!ENV.forgeApiUrl) {
     throw new Error("BUILT_IN_FORGE_API_URL is not configured");
   }

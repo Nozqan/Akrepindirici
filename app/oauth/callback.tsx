@@ -1,13 +1,10 @@
 import { ThemedView } from "@/components/themed-view";
 import * as Api from "@/lib/_core/api";
 import * as Auth from "@/lib/_core/auth";
-import * as Linking from "expo-linking";
-import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-export default function OAuthCallback() {
   const router = useRouter();
   const params = useLocalSearchParams<{
     code?: string;
@@ -70,7 +67,6 @@ export default function OAuthCallback() {
         // Get URL from params or Linking
         let url: string | null = null;
 
-        // Try to get from local search params first (works with expo-router)
         if (params.code || params.state || params.error) {
           console.log("[OAuth] Found params in route params");
           // Extract from params

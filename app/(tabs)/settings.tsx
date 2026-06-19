@@ -4,9 +4,7 @@ import { ScreenContainer } from '@/components/screen-container';
 import { useColors } from '@/hooks/use-colors';
 import { ThemeManager, ThemeName } from '@/lib/theme-manager';
 import { BiometricManager } from '@/lib/biometric-manager';
-import * as Haptics from 'expo-haptics';
 
-export default function SettingsScreen() {
   const colors = useColors();
   const [currentTheme, setCurrentTheme] = useState<ThemeName>('jetBlack');
   const [biometricEnabled, setBiometricEnabled] = useState(false);

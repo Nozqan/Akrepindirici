@@ -18,7 +18,6 @@ const exampleDirPath = path.join(root, exampleDir);
 
 const indexContent = `import { Text, View } from "react-native";
 
-export default function Index() {
   return (
     <View
       style={{
@@ -33,9 +32,7 @@ export default function Index() {
 }
 `;
 
-const layoutContent = `import { Stack } from "expo-router";
 
-export default function RootLayout() {
   return <Stack />;
 }
 `;
@@ -87,7 +84,6 @@ const moveDirectories = async (userInput) => {
 
     console.log("\n✅ Project reset complete. Next steps:");
     console.log(
-      `1. Run \`npx expo start\` to start a development server.\n2. Edit app/index.tsx to edit the main screen.${
         userInput === "y"
           ? `\n3. Delete the /${exampleDir} directory when you're done referencing it.`
           : ""

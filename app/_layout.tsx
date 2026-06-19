@@ -1,6 +1,3 @@
-import { useFonts } from 'expo-font';
-import { Stack, useRouter, useSegments } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
 import { useEffect, useState } from 'react';
 import 'react-native-reanimated';
 import { ThemeProvider } from '@/lib/theme-provider';
@@ -9,7 +6,6 @@ import { BiometricManager } from '@/lib/biometric-manager';
 
 SplashScreen.preventAutoHideAsync();
 
-export default function RootLayout() {
   const [fontsLoaded] = useFonts({});
 
   const [isReady, setIsReady] = useState(false);

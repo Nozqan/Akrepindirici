@@ -1,6 +1,5 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 
-export class NetworkSecurityManager {
   private static instance: NetworkSecurityManager;
   private axiosInstance: AxiosInstance;
   private userAgents = [

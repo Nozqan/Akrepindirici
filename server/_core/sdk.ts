@@ -18,7 +18,6 @@ import type {
 const isNonEmptyString = (value: unknown): value is string =>
   typeof value === "string" && value.length > 0;
 
-export type SessionPayload = {
   openId: string;
   appId: string;
   name: string;
@@ -294,7 +293,6 @@ class SDKServer {
 const CRON_OPEN_ID_PREFIX = "cron_";
 
 /** Result of `sdk.authenticateRequest`. Cron callbacks set `isCron=true` and `taskUid`; see `references/periodic-updates.md`. */
-export type AuthenticatedUser = User & {
   taskUid?: string;
   isCron?: boolean;
 };
@@ -316,4 +314,3 @@ function buildCronUser(userInfo: GetUserInfoWithJwtResponse): AuthenticatedUser 
   } as AuthenticatedUser;
 }
 
-export const sdk = new SDKServer();

@@ -22,7 +22,6 @@ The CI/CD workflow file is located at `.github/workflows/ci-cd.yml` in the Manus
 
 1. **Quality** - TypeScript, ESLint, Tests
 2. **Build Backend** - Node.js server build
-3. **Build Mobile** - Expo app verification
 4. **Integration Tests** - Cross-component testing
 5. **Security Scan** - Trivy vulnerability scanning
 6. **Deploy** - Production deployment (main branch only)

@@ -1,10 +1,8 @@
-import * as LocalAuthentication from 'expo-local-authentication';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const BIOMETRIC_ENABLED_KEY = 'akrepindirici_biometric_enabled';
 const BIOMETRIC_FALLBACK_KEY = 'akrepindirici_biometric_fallback';
 
-export class BiometricManager {
   static async isAvailable(): Promise<boolean> {
     try {
       const compatible = await LocalAuthentication.hasHardwareAsync();

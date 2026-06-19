@@ -1,10 +1,6 @@
-import * as FileSystem from 'expo-file-system/legacy';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export type Platform = 'twitter' | 'tiktok' | 'instagram';
-export type Quality = '360p' | '480p' | '720p' | '1080p';
 
-export interface DownloadedVideo {
   id: string;
   platform: Platform;
   url: string;
@@ -16,7 +12,6 @@ export interface DownloadedVideo {
   thumbnailUri?: string;
 }
 
-export interface DownloadProgress {
   progress: number;
   totalSize: number;
   downloadedSize: number;
@@ -28,7 +23,6 @@ const DOWNLOADS_DIR = `${FileSystem.documentDirectory}akrepindirici_downloads/`;
 const DOWNLOADS_HISTORY_KEY = 'akrepindirici_downloads_history';
 const CLIPBOARD_HISTORY_KEY = 'akrepindirici_clipboard_history';
 
-export class DownloadManager {
   static async initializeDownloadDirectory(): Promise<void> {
     try {
       const dirInfo = await FileSystem.getInfoAsync(DOWNLOADS_DIR);

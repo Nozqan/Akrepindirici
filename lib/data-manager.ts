@@ -1,8 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import * as FileSystem from 'expo-file-system/legacy';
-import * as Crypto from 'expo-crypto';
 
-export interface VideoMetadata {
   id: string;
   title: string;
   platform: 'twitter' | 'tiktok' | 'instagram';
@@ -15,7 +12,6 @@ export interface VideoMetadata {
   uploadedBy?: string;
 }
 
-export class DataManager {
   private static instance: DataManager;
   private thumbnailCache = new Map<string, string>();
   private readonly CACHE_DIR = FileSystem.cacheDirectory + 'akrepindirici_cache/';

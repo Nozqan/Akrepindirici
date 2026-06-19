@@ -7,7 +7,6 @@ type ApiResponse<T> = {
   error?: string;
 };
 
-export async function apiCall<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
     ...((options.headers as Record<string, string>) || {}),
@@ -91,7 +90,6 @@ export async function apiCall<T>(endpoint: string, options: RequestInit = {}): P
 
 // OAuth callback handler - exchange code for session token
 // Calls /api/oauth/mobile endpoint which returns JSON with app_session_id and user
-export async function exchangeOAuthCode(
   code: string,
   state: string,
 ): Promise<{ sessionToken: string; user: any }> {
@@ -117,14 +115,12 @@ export async function exchangeOAuthCode(
 }
 
 // Logout
-export async function logout(): Promise<void> {
   await apiCall<void>("/api/auth/logout", {
     method: "POST",
   });
 }
 
 // Get current authenticated user (web uses cookie-based auth)
-export async function getMe(): Promise<{
   id: number;
   openId: string;
   name: string | null;
@@ -143,7 +139,6 @@ export async function getMe(): Promise<{
 
 // Establish session cookie on the backend (3000-xxx domain)
 // Called after receiving token via postMessage to get a proper Set-Cookie from the backend
-export async function establishSession(token: string): Promise<boolean> {
   try {
     console.log("[API] establishSession: setting cookie on backend...");
     const baseUrl = getApiBaseUrl();

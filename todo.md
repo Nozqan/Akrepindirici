@@ -2,12 +2,9 @@
 
 ## Temel Mimarisi ve Kurulum
 
-- [x] Biyometrik güvenlik modülü (expo-local-authentication) entegrasyonu
 - [x] Dinamik tema motoru ve 5 tema paleti kurulumu
-- [x] Clipboard dinleme sistemi (expo-clipboard)
 - [x] AsyncStorage entegrasyonu (indirme geçmişi, ayarlar)
 - [x] Lottie animasyonları (react-native-lottie)
-- [x] Haptics feedback sistemi (expo-haptics)
 
 ## Ekran Geliştirme
 

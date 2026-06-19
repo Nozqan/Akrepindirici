@@ -1,14 +1,12 @@
 import { useState, useCallback } from 'react';
 import { trpc } from '@/lib/trpc';
 
-export interface DownloadProgress {
   isDownloading: boolean;
   progress: number;
   error: string | null;
   success: boolean;
 }
 
-export function useVideoDownload() {
   const [progress, setProgress] = useState<DownloadProgress>({
     isDownloading: false,
     progress: 0,

@@ -12,8 +12,6 @@ build/
 *.aab
 *.ipa
 
-# Expo
-.expo/
 web-build/
 
 # Environment

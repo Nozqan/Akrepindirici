@@ -1,9 +1,7 @@
 import { AppState, AppStateStatus } from 'react-native';
 import { useEffect, useRef } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import * as LocalAuthentication from 'expo-local-authentication';
 
-export class SecurityManager {
   private static instance: SecurityManager;
   private appState = useRef(AppState.currentState);
   private isAuthenticated = false;
@@ -162,7 +160,6 @@ export class SecurityManager {
 /**
  * Hook: Lifecycle Observer'ı Kullan
  */
-export function useSecurityLifecycle() {
   const securityManager = SecurityManager.getInstance();
 
   useEffect(() => {

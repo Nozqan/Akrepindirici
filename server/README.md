@@ -56,7 +56,6 @@ The template uses **Manus OAuth** for user authentication. It works differently 
 
 | Platform | Auth Method | Token Storage |
 |----------|-------------|---------------|
-| iOS/Android | Bearer token | expo-secure-store |
 | Web | HTTP-only cookie | Browser cookie |
 
 ### Using the Auth Hook
@@ -124,7 +123,6 @@ Use `protectedProcedure` in tRPC to require authentication:
 // server/routers.ts
 import { protectedProcedure } from "./_core/trpc";
 
-export const appRouter = router({
   myFeature: router({
     getData: protectedProcedure.query(({ ctx }) => {
       // ctx.user is guaranteed to exist
@@ -160,7 +158,6 @@ Define your tables in `drizzle/schema.ts`:
 import { int, mysqlTable, text, timestamp, varchar } from "drizzle-orm/mysql-core";
 
 // Users table (already exists)
-export const users = mysqlTable("users", {
   id: int("id").autoincrement().primaryKey(),
   openId: varchar("openId", { length: 64 }).notNull().unique(),
   name: text("name"),
@@ -171,7 +168,6 @@ export const users = mysqlTable("users", {
 });
 
 // Add your tables
-export const items = mysqlTable("items", {
   id: int("id").autoincrement().primaryKey(),
   userId: int("userId").notNull(),
   title: varchar("title", { length: 255 }).notNull(),
@@ -180,10 +176,6 @@ export const items = mysqlTable("items", {
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
 
-// Export types
-export type User = typeof users.$inferSelect;
-export type Item = typeof items.$inferSelect;
-export type InsertItem = typeof items.$inferInsert;
 ```
 
 ### Running Migrations
@@ -205,14 +197,12 @@ import { eq } from "drizzle-orm";
 import { getDb } from "./_core/db";
 import { items, InsertItem } from "../drizzle/schema";
 
-export async function getUserItems(userId: number) {
   const db = await getDb();
   if (!db) return [];
   
   return db.select().from(items).where(eq(items.userId, userId));
 }
 
-export async function createItem(data: InsertItem) {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
   
@@ -220,14 +210,12 @@ export async function createItem(data: InsertItem) {
   return result.insertId;
 }
 
-export async function updateItem(id: number, data: Partial<InsertItem>) {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
   
   await db.update(items).set(data).where(eq(items.id, id));
 }
 
-export async function deleteItem(id: number) {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
   
@@ -248,7 +236,6 @@ import { z } from "zod";
 import { router, protectedProcedure, publicProcedure } from "./_core/trpc";
 import * as db from "./db";
 
-export const appRouter = router({
   // Public route (no auth required)
   health: publicProcedure.query(() => ({ status: "ok" })),
 
@@ -289,7 +276,6 @@ export const appRouter = router({
   }),
 });
 
-export type AppRouter = typeof appRouter;
 ```
 
 ### Calling from Frontend
@@ -382,7 +368,6 @@ import { invokeLLM } from "./server/_core/llm";
  *   };
  * };
  *
- * export type Message = {
  *   role: Role;
  *   content: string | Array<ImageContent | TextContent | FileContent>
  * };
@@ -404,9 +389,7 @@ const response = await invokeLLM({
 ```
 
 Tips
-- Always call llm functions from server-side code (e.g., inside tRPC procedures), to avoid exposing your API key.
 - LLM calls deduct from this project's credit balance.
-- All models support streaming, but `invokeLLM()` doesn't expose `stream` — modify the helper to pass `stream: true` and parse the SSE response if you need it. When proxying SSE, listen on `res` close (not `req`) and guard with a `finished` flag, or the upstream gets aborted after the first event.
 - LLM responses often contain markdown. Use `<Streamdown>{content}</Streamdown>` (imported from `streamdown`) to render markdown content with proper formatting and streaming support.
 - For image-based gen AI workflows, local `file://` and blob URLs don't work. Upload to S3 first, then pass the public URL to `invokeLLM()`.
 
@@ -572,7 +555,6 @@ const { url: imageUrl } = await generateImage({
 ```
 
 Tips
-- Always call from server-side code (e.g., inside tRPC procedures) to avoid exposing API keys
 - Image generation can take 5-20 seconds, implement proper loading states
 - Implement proper error handling as image generation can fail
 
@@ -600,7 +582,6 @@ Tips
 - Save the `key` or `url` in your database; use storage for the actual file bytes. This applies to all files including images, documents, and media.
 - For file uploads, have the client POST to your server, then call `storagePut` from your backend.
 - The returned `url` (e.g. `/manus-storage/...`) is automatically served via signed redirect — no manual URL signing needed.
-- To delete a file, drop its `key` from your DB and any UI references — the key is the only way to reach the object, so an unreferenced file is effectively gone. Do not implement a helper to remove the underlying object; the template's storage layer does not expose a delete endpoint.
 
 ---
 
@@ -637,13 +618,9 @@ Available environment variables:
 | `BUILT_IN_FORGE_API_URL` | Manus API endpoint |
 | `BUILT_IN_FORGE_API_KEY` | Manus API key |
 
-Expo runtime variables (prefixed with `EXPO_PUBLIC_`):
 
 | Variable | Description |
 |----------|-------------|
-| `EXPO_PUBLIC_APP_ID` | App ID for OAuth |
-| `EXPO_PUBLIC_API_BASE_URL` | API server URL |
-| `EXPO_PUBLIC_OAUTH_PORTAL_URL` | Login portal URL |
 
 ---
 
@@ -692,7 +669,6 @@ import { int, mysqlEnum, mysqlTable, text, timestamp, varchar } from "drizzle-or
  * Extend this file with additional tables as your product grows.
  * Columns use camelCase to match both database fields and generated types.
  */
-export const users = mysqlTable("users", {
   /**
    * Surrogate primary key. Auto-incremented numeric value managed by the database.
    * Use this for relations between tables.
@@ -709,8 +685,6 @@ export const users = mysqlTable("users", {
   lastSignedIn: timestamp("lastSignedIn").defaultNow().notNull(),
 });
 
-export type User = typeof users.$inferSelect;
-export type InsertUser = typeof users.$inferInsert;
 
 // TODO: Add your tables here
 ```
@@ -725,7 +699,6 @@ import { ENV } from "./_core/env";
 let _db: ReturnType<typeof drizzle> | null = null;
 
 // Lazily create the drizzle instance so local tooling can run without a DB.
-export async function getDb() {
   if (!_db && process.env.DATABASE_URL) {
     try {
       _db = drizzle(process.env.DATABASE_URL);
@@ -737,7 +710,6 @@ export async function getDb() {
   return _db;
 }
 
-export async function upsertUser(user: InsertUser): Promise<void> {
   if (!user.openId) {
     throw new Error("User openId is required for upsert");
   }
@@ -796,7 +768,6 @@ export async function upsertUser(user: InsertUser): Promise<void> {
   }
 }
 
-export async function getUserByOpenId(openId: string) {
   const db = await getDb();
   if (!db) {
     console.warn("[Database] Cannot get user: database not available");
@@ -818,7 +789,6 @@ import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, router } from "./_core/trpc";
 
-export const appRouter = router({
   // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
   system: systemRouter,
   auth: router({
@@ -840,7 +810,6 @@ export const appRouter = router({
   // }),
 });
 
-export type AppRouter = typeof appRouter;
 ```
 
 `server/storage.ts`
@@ -875,7 +844,6 @@ function appendHashSuffix(relKey: string): string {
   return `${relKey.slice(0, lastDot)}_${hash}${relKey.slice(lastDot)}`;
 }
 
-export async function storagePut(
   relKey: string,
   data: Buffer | Uint8Array | string,
   contentType = "application/octet-stream",
@@ -918,12 +886,10 @@ export async function storagePut(
   return { key, url: `/manus-storage/${key}` };
 }
 
-export async function storageGet(relKey: string): Promise<{ key: string; url: string }> {
   const key = normalizeKey(relKey);
   return { key, url: `/manus-storage/${key}` };
 }
 
-export async function storageGetSignedUrl(relKey: string): Promise<string> {
   const { forgeUrl, forgeKey } = getForgeConfig();
   const key = normalizeKey(relKey);
 
@@ -960,13 +926,11 @@ import * as Auth from "@/lib/_core/auth";
  * NOT at the root createClient level. This ensures client and server
  * use the same serialization format (superjson).
  */
-export const trpc = createTRPCReact<AppRouter>();
 
 /**
  * Creates the tRPC client with proper configuration.
  * Call this once in your app's root layout.
  */
-export function createTRPCClient() {
   return trpc.createClient({
     links: [
       httpBatchLink({
@@ -1001,7 +965,6 @@ type UseAuthOptions = {
   autoFetch?: boolean;
 };
 
-export function useAuth(options?: UseAuthOptions) {
   const { autoFetch = true } = options ?? {};
   const [user, setUser] = useState<Auth.User | null>(null);
   const [loading, setLoading] = useState(true);

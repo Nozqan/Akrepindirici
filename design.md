@@ -158,7 +158,6 @@
 ### Katmanlar
 
 1. **Biyometrik Güvenlik Modülü**
-   - Parmak izi/yüz tanıma (expo-local-authentication)
    - Şifreli oturum yönetimi (AsyncStorage + Crypto)
 
 2. **Dinamik Tema Motoru**
@@ -167,7 +166,6 @@
    - Runtime renk güncellemeleri
 
 3. **Video İndirme Motoru**
-   - Clipboard dinleme (expo-clipboard)
    - Link doğrulama ve parsing
    - Kalite seçimi ve stream çözme
    - Async indirme pipeline
@@ -191,7 +189,6 @@
 7. **Animasyon Katmanı**
    - Lottie (react-native-lottie)
    - Reanimated 4.x (smooth transitions)
-   - Haptics (expo-haptics)
 
 ---
 

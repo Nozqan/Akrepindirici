@@ -1,7 +1,6 @@
 import { Animated, Easing } from 'react-native';
 import { useEffect, useRef } from 'react';
 
-export class ThemeAnimationManager {
   /**
    * Tema Geçiş Animasyonu - Fade Transition
    * Smooth fade effect when changing themes
@@ -172,7 +171,6 @@ export class ThemeAnimationManager {
 /**
  * Hook: Tema Geçiş Animasyonu Kullan
  */
-export function useThemeTransitionAnimation(duration: number = 250) {
   const fadeAnim = useRef(new Animated.Value(1)).current;
 
   const animateThemeChange = (callback: () => void) => {
@@ -208,7 +206,6 @@ export function useThemeTransitionAnimation(duration: number = 250) {
 /**
  * Hook: Tema Kartı Animasyonu Kullan
  */
-export function useThemeCardPressAnimation() {
   const scaleAnim = useRef(new Animated.Value(1)).current;
 
   const handlePressIn = () => {

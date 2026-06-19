@@ -1,7 +1,6 @@
 import { TRPCError } from "@trpc/server";
 import { ENV } from "./env";
 
-export type NotificationPayload = {
   title: string;
   content: string;
 };
@@ -58,7 +57,6 @@ const validatePayload = (input: NotificationPayload): NotificationPayload => {
  * cannot be reached (callers can fall back to email/slack). Validation errors
  * bubble up as TRPC errors so callers can fix the payload.
  */
-export async function notifyOwner(payload: NotificationPayload): Promise<boolean> {
   const { title, content } = validatePayload(payload);
 
   if (!ENV.forgeApiUrl) {

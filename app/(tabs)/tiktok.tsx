@@ -3,10 +3,7 @@ import { ScrollView, Text, View, TextInput, TouchableOpacity, ActivityIndicator,
 import { ScreenContainer } from '@/components/screen-container';
 import { useColors } from '@/hooks/use-colors';
 import { DownloadManager } from '@/lib/download-manager';
-import * as Clipboard from 'expo-clipboard';
-import * as Haptics from 'expo-haptics';
 
-export default function TikTokScreen() {
   const colors = useColors();
   const [url, setUrl] = useState('');
   const [isLoading, setIsLoading] = useState(false);

@@ -7,7 +7,6 @@ type UseAuthOptions = {
   autoFetch?: boolean;
 };
 
-export function useAuth(options?: UseAuthOptions) {
   const { autoFetch = true } = options ?? {};
   const [user, setUser] = useState<Auth.User | null>(null);
   const [loading, setLoading] = useState(true);

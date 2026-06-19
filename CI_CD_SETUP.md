@@ -30,7 +30,6 @@ Due to token permission limitations, the CI/CD workflow needs to be set up via G
 - Upload artifacts to GitHub
 
 #### 3. Mobile Build
-- Verify Expo configuration
 - Check app.config.ts
 - Validate TypeScript
 

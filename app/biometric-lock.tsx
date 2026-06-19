@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
-import { useRouter } from 'expo-router';
 import { ScreenContainer } from '@/components/screen-container';
 import { useColors } from '@/hooks/use-colors';
 import { BiometricManager } from '@/lib/biometric-manager';
-import * as Haptics from 'expo-haptics';
 
-export default function BiometricLockScreen() {
   const colors = useColors();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);

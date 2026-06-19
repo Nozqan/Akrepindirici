@@ -3,14 +3,12 @@ import * as path from 'path';
 import * as fs from 'fs';
 import axios from 'axios';
 
-export interface InstagramDownloadOptions {
   url: string;
   quality: '360p' | '480p' | '720p' | '1080p';
   removeWatermark?: boolean;
   stripMetadata?: boolean;
 }
 
-export interface DownloadResult {
   success: boolean;
   filePath?: string;
   fileName?: string;
@@ -19,7 +17,6 @@ export interface DownloadResult {
   error?: string;
 }
 
-export interface InstagramMetadata {
   postId: string;
   author: string;
   authorHandle: string;
@@ -30,7 +27,6 @@ export interface InstagramMetadata {
   isReel: boolean;
 }
 
-export class InstagramDownloader {
   private static readonly DOWNLOAD_DIR = '/tmp/instagram_downloads';
   private static readonly USER_AGENTS = [
     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 Instagram 1.0',

@@ -40,4 +40,3 @@ const themeColors = {
   error: { light: '#EF4444', dark: '#F87171' },
 };
 
-module.exports = { themeColors };

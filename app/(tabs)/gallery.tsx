@@ -3,11 +3,9 @@ import { ScrollView, Text, View, TouchableOpacity, FlatList, Alert } from 'react
 import { ScreenContainer } from '@/components/screen-container';
 import { useColors } from '@/hooks/use-colors';
 import { DownloadManager, Platform as DlPlatform, DownloadedVideo } from '@/lib/download-manager';
-import * as Haptics from 'expo-haptics';
 
 type TabType = 'twitter' | 'tiktok' | 'instagram';
 
-export default function GalleryScreen() {
   const colors = useColors();
   const [activeTab, setActiveTab] = useState<TabType>('twitter');
   const [videos, setVideos] = useState<DownloadedVideo[]>([]);

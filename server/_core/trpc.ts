@@ -7,8 +7,6 @@ const t = initTRPC.context<TrpcContext>().create({
   transformer: superjson,
 });
 
-export const router = t.router;
-export const publicProcedure = t.procedure;
 
 const requireUser = t.middleware(async (opts) => {
   const { ctx, next } = opts;
@@ -25,9 +23,7 @@ const requireUser = t.middleware(async (opts) => {
   });
 });
 
-export const protectedProcedure = t.procedure.use(requireUser);
 
-export const adminProcedure = t.procedure.use(
   t.middleware(async (opts) => {
     const { ctx, next } = opts;
 

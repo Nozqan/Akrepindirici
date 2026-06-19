@@ -2,7 +2,6 @@ import { router, publicProcedure } from './trpc';
 import { z } from 'zod';
 import { VideoDownloadService, type VideoPlatform, type VideoQuality } from './video-download';
 
-export const videoRouter = router({
   download: publicProcedure
     .input(
       z.object({

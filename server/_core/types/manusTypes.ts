@@ -2,7 +2,6 @@
 // Auto-generated from protobuf definitions
 // Generated on: 2025-09-24T05:57:57.338Z
 
-export interface AuthorizeRequest {
   redirectUri: string;
   projectId: string;
   state: string;
@@ -10,11 +9,9 @@ export interface AuthorizeRequest {
   scope: string;
 }
 
-export interface AuthorizeResponse {
   redirectUrl: string;
 }
 
-export interface ExchangeTokenRequest {
   grantType: string;
   code: string;
   refreshToken?: string;
@@ -23,7 +20,6 @@ export interface ExchangeTokenRequest {
   redirectUri: string;
 }
 
-export interface ExchangeTokenResponse {
   accessToken: string;
   tokenType: string;
   expiresIn: number;
@@ -32,11 +28,9 @@ export interface ExchangeTokenResponse {
   idToken: string;
 }
 
-export interface GetUserInfoRequest {
   accessToken: string;
 }
 
-export interface GetUserInfoResponse {
   openId: string;
   projectId: string;
   name: string;
@@ -45,21 +39,17 @@ export interface GetUserInfoResponse {
   loginMethod?: string | null;
 }
 
-export interface CanAccessRequest {
   openId: string;
   projectId: string;
 }
 
-export interface CanAccessResponse {
   canAccess: boolean;
 }
 
-export interface GetUserInfoWithJwtRequest {
   jwtToken: string;
   projectId: string;
 }
 
-export interface GetUserInfoWithJwtResponse {
   openId: string;
   projectId: string;
   name: string;

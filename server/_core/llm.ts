@@ -1,13 +1,10 @@
 import { ENV } from "./env";
 
-export type Role = "system" | "user" | "assistant" | "tool" | "function";
 
-export type TextContent = {
   type: "text";
   text: string;
 };
 
-export type ImageContent = {
   type: "image_url";
   image_url: {
     url: string;
@@ -15,7 +12,6 @@ export type ImageContent = {
   };
 };
 
-export type FileContent = {
   type: "file_url";
   file_url: {
     url: string;
@@ -23,16 +19,13 @@ export type FileContent = {
   };
 };
 
-export type MessageContent = string | TextContent | ImageContent | FileContent;
 
-export type Message = {
   role: Role;
   content: MessageContent | MessageContent[];
   name?: string;
   tool_call_id?: string;
 };
 
-export type Tool = {
   type: "function";
   function: {
     name: string;
@@ -41,18 +34,13 @@ export type Tool = {
   };
 };
 
-export type ToolChoicePrimitive = "none" | "auto" | "required";
-export type ToolChoiceByName = { name: string };
-export type ToolChoiceExplicit = {
   type: "function";
   function: {
     name: string;
   };
 };
 
-export type ToolChoice = ToolChoicePrimitive | ToolChoiceByName | ToolChoiceExplicit;
 
-export type InvokeParams = {
   messages: Message[];
   tools?: Tool[];
   toolChoice?: ToolChoice;
@@ -68,7 +56,6 @@ export type InvokeParams = {
   reasoning?: Record<string, unknown>;
 };
 
-export type ToolCall = {
   id: string;
   type: "function";
   function: {
@@ -77,7 +64,6 @@ export type ToolCall = {
   };
 };
 
-export type InvokeResult = {
   id: string;
   created: number;
   model: string;
@@ -97,15 +83,12 @@ export type InvokeResult = {
   };
 };
 
-export type JsonSchema = {
   name: string;
   schema: Record<string, unknown>;
   strict?: boolean;
 };
 
-export type OutputSchema = JsonSchema;
 
-export type ResponseFormat =
   | { type: "text" }
   | { type: "json_object" }
   | { type: "json_schema"; json_schema: JsonSchema };
@@ -271,7 +254,6 @@ const parseRetryAfter = (value: string | null): number | undefined => {
   return Number.isNaN(at) ? undefined : Math.max(0, at - Date.now());
 };
 
-// Equal-jitter exponential backoff. The cap/2 floor guarantees a minimum delay so a
 // misbehaving caller loop slows down instead of hammering the upstream while it keeps
 // returning errors.
 const computeBackoffDelay = (attempt: number, retryAfterMs?: number): number => {
@@ -280,7 +262,6 @@ const computeBackoffDelay = (attempt: number, retryAfterMs?: number): number => 
   return Math.min(Math.max(jittered, retryAfterMs ?? 0), RETRY_MAX_DELAY_MS);
 };
 
-// Retries non-2xx responses and network errors with exponential backoff, then returns
 // the final Response so callers keep their existing error handling.
 const fetchWithBackoff = async (url: string, init: FetchInit): Promise<Response> => {
   let lastError: unknown;
@@ -317,7 +298,6 @@ const fetchWithBackoff = async (url: string, init: FetchInit): Promise<Response>
     : new Error("LLM request failed after exhausting retries");
 };
 
-export async function invokeLLM(params: InvokeParams): Promise<InvokeResult> {
   assertApiKey();
 
   const {
@@ -393,19 +373,16 @@ export async function invokeLLM(params: InvokeParams): Promise<InvokeResult> {
   return (await response.json()) as InvokeResult;
 }
 
-export type ModelInfo = {
   id: string;
   object: string;
   created: number;
   owned_by: string;
 };
 
-export type ModelsResponse = {
   object: string;
   data: ModelInfo[];
 };
 
-export async function listLLMModels(): Promise<ModelsResponse> {
   assertApiKey();
 
   const url =

@@ -4,11 +4,9 @@ import { ScreenContainer } from '@/components/screen-container';
 import { useColors } from '@/hooks/use-colors';
 import { DownloadManager, type DownloadedVideo } from '@/lib/download-manager';
 import { ShareManager, type ShareTarget } from '@/lib/share-manager';
-import * as Haptics from 'expo-haptics';
 
 type TabType = 'twitter' | 'tiktok' | 'instagram';
 
-export default function GalleryShareScreen() {
   const colors = useColors();
   const [activeTab, setActiveTab] = useState<TabType>('twitter');
   const [videos, setVideos] = useState<DownloadedVideo[]>([]);

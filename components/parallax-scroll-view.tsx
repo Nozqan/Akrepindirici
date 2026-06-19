@@ -21,7 +21,6 @@ type Props = PropsWithChildren<{
  * A scroll view with parallax header effect.
  * Note: Animated components require style objects for dynamic animations.
  */
-export default function ParallaxScrollView({
   children,
   headerImage,
   headerBackgroundColor,
