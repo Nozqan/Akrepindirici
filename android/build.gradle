@@ -8,15 +8,24 @@ buildscript {
         targetSdkVersion = 34
         ndkVersion = "26.1.10909125"
         kotlinVersion = "1.9.20"
+        gradlePluginVersion = "8.0.2"
     }
     repositories {
         google()
         mavenCentral()
+        gradlePluginPortal()
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:8.1.1")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
+        classpath("com.android.tools.build:gradle:${ext.gradlePluginVersion}")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${ext.kotlinVersion}")
+        classpath("com.facebook.react:react-native-gradle-plugin")
     }
+}
+
+plugins {
+    id("com.android.application") version "${buildscript.ext.gradlePluginVersion}" apply false
+    id("com.android.library") version "${buildscript.ext.gradlePluginVersion}" apply false
+    id("org.jetbrains.kotlin.android") version "${buildscript.ext.kotlinVersion}" apply false
 }
 
 allprojects {
@@ -24,11 +33,9 @@ allprojects {
         google()
         mavenCentral()
         maven {
-            // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
             url("$rootDir/../node_modules/react-native/android")
         }
         maven {
-            // Android JSC is installed from npm
             url("$rootDir/../node_modules/jsc-android/dist")
         }
         maven {
@@ -38,5 +45,10 @@ allprojects {
                 password = System.getenv("GITHUB_TOKEN") ?: ""
             }
         }
+        maven { url 'https://www.jitpack.io' }
     }
+}
+
+tasks.register('clean', Delete) {
+    delete rootProject.buildDir
 }
