@@ -46,20 +46,6 @@ android {
         }
     }
 
-    flavorDimensions "version"
-    productFlavors {
-        free {
-            dimension "version"
-            applicationIdSuffix ".free"
-            versionNameSuffix "-free"
-        }
-        paid {
-            dimension "version"
-            applicationIdSuffix ".paid"
-            versionNameSuffix "-paid"
-        }
-    }
-
     packagingOptions {
         pickFirst '**/armeabi-v7a/libc++_shared.so'
         pickFirst '**/arm64-v8a/libc++_shared.so'

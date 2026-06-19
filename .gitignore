@@ -1,1 +1,41 @@
-.github/workflows/
+# .gitignore
+# NOT: .github/workflows/ kasıtlı olarak izleniyor (CI/CD için gerekli)
+
+# Node
+node_modules/
+.pnpm-store/
+
+# Build outputs
+dist/
+build/
+*.apk
+*.aab
+*.ipa
+
+# Expo
+.expo/
+web-build/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Android
+android/build/
+android/.gradle/
+android/app/build/
+android/app/debug.keystore
+android/app/release.keystore
+
+# iOS
+ios/build/
+ios/Pods/
+ios/*.xcworkspace/
+ios/*.xcodeproj/
+
+# Misc
+.DS_Store
+*.log
+*.tmp
+coverage/
