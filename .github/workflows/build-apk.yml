@@ -71,7 +71,7 @@ jobs:
 
       # ── EAS Cloud Build (EXPO_TOKEN varsa) ──
       - name: Build APK via EAS Cloud
-        if: ${{ secrets.EXPO_TOKEN != '' }}
+        if: ${{ secrets.-XlMiVLfZXF-it6iVwzz-mqO3Km2w8HpRATD9-Aq != '' }}
         id: eas_build
         run: |
           eas build \
