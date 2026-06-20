@@ -29,7 +29,14 @@ jobs:
           version: 9
 
       - name: Bağımlılıkları Yükle
-        run: pnpm install --no-frozen-lockfile --shamefully-hoist
+        run: |
+          pnpm config set node-linker hoisted
+          pnpm install --no-frozen-lockfile
+
+      - name: Debug node_modules
+        run: |
+          ls -d node_modules/expo-modules-autolinking || echo "Not found"
+          ls -l node_modules/expo-modules-autolinking || echo "Not found"
 
       - name: Android SDK Kurulumu
         uses: android-actions/setup-android@v3
