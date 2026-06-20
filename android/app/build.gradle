@@ -1,9 +1,17 @@
 apply plugin: "com.android.application"
 apply plugin: "org.jetbrains.kotlin.android"
 apply plugin: "com.facebook.react"
-def expoAutolinkingPath = ["node", "--print", "require.resolve('expo-modules-autolinking/package.json')"].execute().text.trim()
-apply from: new File(expoAutolinkingPath, "../scripts/autolinking.gradle")
-useExpoModules()
+
+// Expo Autolinking
+def expoAutolinkingFile = file("../../node_modules/expo-modules-autolinking/scripts/autolinking.gradle")
+if (expoAutolinkingFile.exists()) {
+    apply from: expoAutolinkingFile
+    useExpoModules()
+} else {
+    def dynamicPath = ["node", "--print", "require.resolve('expo-modules-autolinking/package.json', {paths: [rootDir.absolutePath]})"].execute().text.trim()
+    apply from: new File(dynamicPath, "../scripts/autolinking.gradle")
+    useExpoModules()
+}
 
 /**
  * This is the configuration block to customize your React Native Android app.
@@ -13,28 +21,43 @@ react {
     /* Folders */
     //   The root of your project, i.e. where "package.json" lives. Default is '..'
     // root = file("../")
-    //   The folder where the react-native NPM package is. Default is ../node_modules/react-native
+    //   The folder where the react-native npm package is. Default is ../node_modules/react-native
     // reactNativeDir = file("../node_modules/react-native")
-    //   The folder where the react-native Codegen package is. Default is ../node_modules/@react-native/codegen
-    // codegenDir = file("../node_modules/@react-native/codegen")
-    //   The cli.js file which is the React Native CLI entrypoint. Default is ../node_modules/react-native/cli.js
-    // cliFile = file("../node_modules/react-native/cli.js")
+    //   The folder where the react-native CLI is. Default is ../node_modules/react-native/cli.js
+    // JS_ENGINE = "hermes"
 }
+
+/**
+ * Set this to true to Run Proguard on Release builds to control the size of the APK.
+ */
+def enableProguardInReleaseBuilds = false
+
+/**
+ * The preferred build flavor of JavaScriptCore (JSC)
+ *
+ * For example, to use the international variant, you can use:
+ * `def jscVariant = 'org.webkit:android-jsc-intl:+'`
+ *
+ * The international variant includes ICU i18n library and necessary data
+ * allowing to use e.g. `Date.toLocaleString` and `String.localeCompare` that
+ * give correct results when using with locales other than en-US. Note that
+ * this variant is about 6MiB larger per architecture than default.
+ */
+def jscVariant = 'org.webkit:android-jsc:+'
 
 android {
     ndkVersion rootProject.ext.ndkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
-    namespace "com.anonymous.akrepindirici"
 
+    namespace "com.anonymous.akrepindirici"
     defaultConfig {
         applicationId "com.anonymous.akrepindirici"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
-        versionName "1.0.0"
+        versionName "1.0"
     }
-
     signingConfigs {
         debug {
             storeFile file('debug.keystore')
@@ -43,14 +66,15 @@ android {
             keyPassword 'android'
         }
     }
-
     buildTypes {
         debug {
             signingConfig signingConfigs.debug
         }
         release {
+            // Caution! In production, you need to generate your own keystore file.
+            // see https://reactnative.dev/docs/signed-apk-android.
             signingConfig signingConfigs.debug
-            minifyEnabled false
+            minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
     }
@@ -59,7 +83,12 @@ android {
 dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
-    implementation("com.facebook.react:hermes-android")
+
+    if (hermesEnabled.toBoolean()) {
+        implementation("com.facebook.react:hermes-android")
+    } else {
+        implementation jscVariant
+    }
 }
 
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
