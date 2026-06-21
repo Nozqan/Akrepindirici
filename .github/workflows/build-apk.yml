@@ -23,20 +23,9 @@ jobs:
         with:
           node-version: '18'
 
-      - name: pnpm Kurulumu
-        uses: pnpm/action-setup@v4
-        with:
-          version: 9
-
-      - name: Bağımlılıkları Yükle
+      - name: Bağımlılıkları Yükle (npm)
         run: |
-          pnpm config set node-linker hoisted
-          pnpm install --no-frozen-lockfile
-
-      - name: Debug node_modules
-        run: |
-          ls -d node_modules/expo-modules-autolinking || echo "Not found"
-          ls -l node_modules/expo-modules-autolinking || echo "Not found"
+          npm install --legacy-peer-deps
 
       - name: Android SDK Kurulumu
         uses: android-actions/setup-android@v3
