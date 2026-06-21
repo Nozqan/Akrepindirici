@@ -2,47 +2,28 @@ apply plugin: "com.android.application"
 apply plugin: "org.jetbrains.kotlin.android"
 apply plugin: "com.facebook.react"
 
-// Expo Autolinking
-def expoAutolinkingFile = file("../../node_modules/expo-modules-autolinking/scripts/autolinking.gradle")
-if (expoAutolinkingFile.exists()) {
-    apply from: expoAutolinkingFile
-    useExpoModules()
-} else {
-    def dynamicPath = ["node", "--print", "require.resolve('expo-modules-autolinking/package.json', {paths: [rootDir.absolutePath]})"].execute().text.trim()
-    apply from: new File(dynamicPath, "../scripts/autolinking.gradle")
-    useExpoModules()
-}
+// Expo Autolinking - node-linker=hoisted sayesinde standart path kullanılabilir
+apply from: file("../../node_modules/expo-modules-autolinking/scripts/autolinking.gradle")
+useExpoModules()
 
 /**
  * This is the configuration block to customize your React Native Android app.
- * By default you don't need to apply any configuration, just uncomment the lines you need.
  */
 react {
     /* Folders */
-    //   The root of your project, i.e. where "package.json" lives. Default is '..'
     // root = file("../")
-    //   The folder where the react-native npm package is. Default is ../node_modules/react-native
     // reactNativeDir = file("../node_modules/react-native")
-    //   The folder where the react-native CLI is. Default is ../node_modules/react-native/cli.js
-    // JS_ENGINE = "hermes"
+    // codegenDir = file("../node_modules/@react-native/codegen")
+    // cliPath = file("../node_modules/react-native/cli.js")
+
+    /* Variants */
+    // debugAtuoRun = true
+
+    /* Hermes */
+    // hermesEnabled = true
 }
 
-/**
- * Set this to true to Run Proguard on Release builds to control the size of the APK.
- */
 def enableProguardInReleaseBuilds = false
-
-/**
- * The preferred build flavor of JavaScriptCore (JSC)
- *
- * For example, to use the international variant, you can use:
- * `def jscVariant = 'org.webkit:android-jsc-intl:+'`
- *
- * The international variant includes ICU i18n library and necessary data
- * allowing to use e.g. `Date.toLocaleString` and `String.localeCompare` that
- * give correct results when using with locales other than en-US. Note that
- * this variant is about 6MiB larger per architecture than default.
- */
 def jscVariant = 'org.webkit:android-jsc:+'
 
 android {
@@ -71,8 +52,6 @@ android {
             signingConfig signingConfigs.debug
         }
         release {
-            // Caution! In production, you need to generate your own keystore file.
-            // see https://reactnative.dev/docs/signed-apk-android.
             signingConfig signingConfigs.debug
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
@@ -81,7 +60,6 @@ android {
 }
 
 dependencies {
-    // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
 
     if (hermesEnabled.toBoolean()) {
