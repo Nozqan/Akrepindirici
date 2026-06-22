@@ -2,23 +2,22 @@ apply plugin: "com.android.application"
 apply plugin: "org.jetbrains.kotlin.android"
 apply plugin: "com.facebook.react"
 
-// Expo Autolinking
-def expoAutolinkingScript = file("../../node_modules/expo-modules-autolinking/scripts/autolinking.gradle")
-if (expoAutolinkingScript.exists()) {
-    apply from: expoAutolinkingScript
-    useExpoModules()
-} else {
-    println "WARNING: expo-modules-autolinking script not found at ${expoAutolinkingScript.absolutePath}"
-    def pnpmPath = file("../../node_modules/expo/node_modules/expo-modules-autolinking/scripts/autolinking.gradle")
-    if (pnpmPath.exists()) {
-        apply from: pnpmPath
-        useExpoModules()
+// Expo Autolinking - Dinamik yol bulma (CI uyumlu)
+def getExpoAutolinkingScript() {
+    try {
+        def command = "node -e \"console.log(require.resolve('expo-modules-autolinking/scripts/autolinking.gradle'))\""
+        return file(command.execute().text.trim())
+    } catch (Exception e) {
+        return file("../../node_modules/expo-modules-autolinking/scripts/autolinking.gradle")
     }
 }
 
-/**
- * This is the configuration block to customize your React Native Android app.
- */
+def expoScript = getExpoAutolinkingScript()
+if (expoScript.exists()) {
+    apply from: expoScript
+    useExpoModules()
+}
+
 react {
 }
 

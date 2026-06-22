@@ -12,17 +12,20 @@ apply from: file("../node_modules/@react-native-community/cli-platform-android/n
 include ':app'
 includeBuild('../node_modules/@react-native/gradle-plugin')
 
-// Expo Autolinking - Daha sağlam bir kontrol
-def expoAutolinkingScript = file("../node_modules/expo-modules-autolinking/scripts/autolinking.gradle")
-if (expoAutolinkingScript.exists()) {
-    apply from: expoAutolinkingScript
+// Expo Autolinking - Dinamik yol bulma (CI uyumlu)
+def getExpoAutolinkingScript() {
+    try {
+        def command = "node -e \"console.log(require.resolve('expo-modules-autolinking/scripts/autolinking.gradle'))\""
+        return file(command.execute().text.trim())
+    } catch (Exception e) {
+        return file("../node_modules/expo-modules-autolinking/scripts/autolinking.gradle")
+    }
+}
+
+def expoScript = getExpoAutolinkingScript()
+if (expoScript.exists()) {
+    apply from: expoScript
     useExpoModules()
 } else {
-    println "WARNING: expo-modules-autolinking script not found at ${expoAutolinkingScript.absolutePath}"
-    // Alternatif yol denemesi (pnpm structure)
-    def pnpmPath = file("../node_modules/expo/node_modules/expo-modules-autolinking/scripts/autolinking.gradle")
-    if (pnpmPath.exists()) {
-        apply from: pnpmPath
-        useExpoModules()
-    }
+    println "CRITICAL ERROR: expo-modules-autolinking script not found!"
 }
