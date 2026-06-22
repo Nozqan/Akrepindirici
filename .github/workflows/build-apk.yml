@@ -21,7 +21,7 @@ jobs:
       - name: Node.js Kurulumu
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20'
 
       - name: Bağımlılıkları Yükle (npm)
         run: |
@@ -34,9 +34,9 @@ jobs:
         run: |
           cd android
           chmod +x gradlew
-          ./gradlew assembleDebug --stacktrace
+          ./gradlew assembleDebug --no-daemon --stacktrace
         env:
-          GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.jvmargs=-Xmx4g"
+          GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx4g -XX:MaxMetaspaceSize=1g"
 
       - name: APK'yı Yükle (Artifact)
         uses: actions/upload-artifact@v4
