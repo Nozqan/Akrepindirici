@@ -2,23 +2,15 @@ apply plugin: "com.android.application"
 apply plugin: "org.jetbrains.kotlin.android"
 apply plugin: "com.facebook.react"
 
-// Expo Autolinking - Dinamik yol bulma (CI uyumlu)
-def getExpoAutolinkingScript() {
-    try {
-        def command = "node -e \"console.log(require.resolve('expo-modules-autolinking/scripts/autolinking.gradle'))\""
-        return file(command.execute().text.trim())
-    } catch (Exception e) {
-        return file("../../node_modules/expo-modules-autolinking/scripts/autolinking.gradle")
-    }
-}
+// Expo Autolinking - Standart Expo yapısı (npm install sonrası kesinleşen yol)
+apply from: file("../../node_modules/expo/scripts/autolinking.gradle")
+useExpoModules()
 
-def expoScript = getExpoAutolinkingScript()
-if (expoScript.exists()) {
-    apply from: expoScript
-    useExpoModules()
-}
-
+/**
+ * This is the configuration block to customize your React Native Android app.
+ */
 react {
+    // Proje ayarları
 }
 
 def enableProguardInReleaseBuilds = false

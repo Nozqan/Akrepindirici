@@ -12,20 +12,6 @@ apply from: file("../node_modules/@react-native-community/cli-platform-android/n
 include ':app'
 includeBuild('../node_modules/@react-native/gradle-plugin')
 
-// Expo Autolinking - Dinamik yol bulma (CI uyumlu)
-def getExpoAutolinkingScript() {
-    try {
-        def command = "node -e \"console.log(require.resolve('expo-modules-autolinking/scripts/autolinking.gradle'))\""
-        return file(command.execute().text.trim())
-    } catch (Exception e) {
-        return file("../node_modules/expo-modules-autolinking/scripts/autolinking.gradle")
-    }
-}
-
-def expoScript = getExpoAutolinkingScript()
-if (expoScript.exists()) {
-    apply from: expoScript
-    useExpoModules()
-} else {
-    println "CRITICAL ERROR: expo-modules-autolinking script not found!"
-}
+// Expo Autolinking - Standart Expo yapısı (npm install sonrası kesinleşen yol)
+apply from: file("../node_modules/expo/scripts/autolinking.gradle")
+useExpoModules()
