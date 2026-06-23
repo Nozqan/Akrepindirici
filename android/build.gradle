@@ -28,13 +28,21 @@ allprojects {
 }
 
 subprojects {
-    afterEvaluate { project ->
+    def configureAndroid = { project ->
         if (project.hasProperty('android')) {
             project.android {
                 if (compileSdkVersion == null || compileSdkVersion < 34) {
                     compileSdkVersion rootProject.ext.compileSdkVersion
                 }
             }
+        }
+    }
+    
+    if (project.state.executed) {
+        configureAndroid(project)
+    } else {
+        project.afterEvaluate {
+            configureAndroid(it)
         }
     }
 }
