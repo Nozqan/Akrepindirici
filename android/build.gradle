@@ -26,14 +26,3 @@ allprojects {
         mavenCentral()
     }
 }
-
-subprojects {
-    afterEvaluate { project ->
-        if (project.hasProperty('android')) {
-            // compileSdkVersion'ı zorla güncellemek yerine sadece eksikse ata
-            if (project.android.compileSdkVersion == null) {
-                project.android.compileSdkVersion rootProject.ext.compileSdkVersion
-            }
-        }
-    }
-}
