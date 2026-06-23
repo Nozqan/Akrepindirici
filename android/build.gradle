@@ -30,10 +30,9 @@ allprojects {
 subprojects {
     afterEvaluate { project ->
         if (project.hasProperty('android')) {
-            project.android {
-                if (compileSdkVersion instanceof Integer && compileSdkVersion < 34) {
-                    compileSdkVersion rootProject.ext.compileSdkVersion
-                }
+            // compileSdkVersion'ı zorla güncellemek yerine sadece eksikse ata
+            if (project.android.compileSdkVersion == null) {
+                project.android.compileSdkVersion rootProject.ext.compileSdkVersion
             }
         }
     }
