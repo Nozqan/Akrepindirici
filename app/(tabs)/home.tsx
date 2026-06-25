@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ScrollView, Text, View, TextInput, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
+import * as Clipboard from 'expo-clipboard';
+import * as Haptics from 'expo-haptics';
 import { ScreenContainer } from '@/components/screen-container';
 import { useColors } from '@/hooks/use-colors';
 import { DownloadManager, Quality } from '@/lib/download-manager';
@@ -7,6 +9,7 @@ import { useVideoDownload } from '@/hooks/use-video-download';
 
 const QUALITIES: Quality[] = ['360p', '480p', '720p', '1080p'];
 
+export default function HomeScreen() {
   const colors = useColors();
   const { download, progress } = useVideoDownload();
   const [url, setUrl] = useState('');

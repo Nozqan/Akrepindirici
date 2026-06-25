@@ -1,4 +1,7 @@
 import { useEffect, useState } from 'react';
+import { Stack, useRouter, useSegments } from 'expo-router';
+import * as SplashScreen from 'expo-splash-screen';
+import { useFonts } from 'expo-font';
 import 'react-native-reanimated';
 import { ThemeProvider } from '@/lib/theme-provider';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -6,8 +9,8 @@ import { BiometricManager } from '@/lib/biometric-manager';
 
 SplashScreen.preventAutoHideAsync();
 
+export default function RootLayout() {
   const [fontsLoaded] = useFonts({});
-
   const [isReady, setIsReady] = useState(false);
   const [isBiometricAuthenticated, setIsBiometricAuthenticated] = useState(false);
   const router = useRouter();
